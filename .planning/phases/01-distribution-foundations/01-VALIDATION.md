@@ -57,7 +57,7 @@ Phase 1 is greenfield — every artifact is a Wave 0 dependency. Listed in depen
 ### Source files (created by plan tasks)
 
 - [ ] `MoleBar.xcodeproj/project.pbxproj` — Xcode project (created via Xcode UI or XcodeGen `project.yml`)
-- [ ] `MoleBar/Info.plist` — bundle ID `app.molebar.MoleBar`, `LSUIElement=YES`, `SUFeedURL`, `SUPublicEDKey`, `SUEnableInstallerLauncherService`, `SUEnableDownloaderService`, `SUEnableAutomaticChecks`, version placeholders `$(MARKETING_VERSION)` / `$(CURRENT_PROJECT_VERSION)`
+- [ ] `MoleBar/Info.plist` — bundle ID `app.molebar.MoleBar`, `LSUIElement=YES`, `SUFeedURL`, `SUPublicEDKey`, `SUEnableAutomaticChecks`, version placeholders `$(MARKETING_VERSION)` / `$(CURRENT_PROJECT_VERSION)`. **Omits** `SURequireSignedFeed` (older Sparkle paradigm) and `SUEnableInstallerLauncherService` / `SUEnableDownloaderService` (sandboxed-app XPC services; MoleBar is unsandboxed) per CONTEXT.md A1 amendment
 - [ ] `MoleBar/MoleBar.entitlements` — empty plist (Phase 1.5 fills entitlements)
 - [ ] `MoleBar/MoleBarApp.swift` — `@main` App with `MenuBarExtra(.window)` + Sparkle `SPUStandardUpdaterController` wiring
 - [ ] `MoleBar/PopoverRootView.swift` — popover content with version string + "Check for Updates…" + "Quit"
