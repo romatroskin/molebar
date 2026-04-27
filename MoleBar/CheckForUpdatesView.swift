@@ -2,7 +2,11 @@ import SwiftUI
 import Sparkle
 
 /// Observes Sparkle's `canCheckForUpdates` so the button auto-disables
-/// while a check is in flight. Pattern from Sparkle's programmatic-setup docs.
+/// while a check is in flight. Pattern from Sparkle's programmatic-setup docs,
+/// adapted for Swift 6 strict concurrency: `@MainActor` is required because
+/// `SPUUpdater.canCheckForUpdates` is main-actor-isolated, so the key-path
+/// publisher subscription must originate on the main actor.
+@MainActor
 final class CheckForUpdatesViewModel: ObservableObject {
     @Published var canCheckForUpdates = false
 
