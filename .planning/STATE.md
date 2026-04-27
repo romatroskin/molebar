@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: Launch
 status: executing
-stopped_at: Phase 1 context gathered
-last_updated: "2026-04-27T21:48:33.538Z"
-last_activity: 2026-04-27 -- Phase 1 execution started
+stopped_at: "Phase 1 plans 01-01..01-06 complete; plan 01-07 (smoke test) deferred — pre-tag-push (SUPublicEDKey not yet frozen); Phase 2 ready to begin"
+last_updated: "2026-04-28T00:00:00.000Z"
+last_activity: 2026-04-28 -- Phase 1 execution complete (6/7 plans); plan 01-07 deferred pending clean test Mac
 progress:
   total_phases: 9
   completed_phases: 0
   total_plans: 7
-  completed_plans: 0
-  percent: 0
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-27)
 
 **Core value:** Full Mole feature parity in the menu bar — every capability of the Mole CLI must eventually be reachable from the MoleBar UI.
-**Current focus:** Phase 1 — Distribution Foundations
+**Current focus:** Phase 1 — Distribution Foundations (6/7 plans done; 01-07 smoke test deferred)
 
 ## Current Position
 
-Phase: 1 (Distribution Foundations) — EXECUTING
-Plan: 1 of 7
-Status: Executing Phase 1
-Last activity: 2026-04-27 -- Phase 1 execution started
+Phase: 1 (Distribution Foundations) — 6/7 plans complete; plan 01-07 DEFERRED
+Plan: 6 of 7 complete; 01-07 deferred pre-freeze-gate
+Status: Phase 1 plumbing complete, live shake-out pending; Phase 2 unblocked
+Last activity: 2026-04-28 -- Phase 1 plumbing complete; plan 01-07 (tag push + smoke test) deferred
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [████████░░] 86%
 
 ## Performance Metrics
 
