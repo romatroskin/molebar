@@ -1,0 +1,505 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E5CD18A07FAC1EF00C053E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6FDD4941DD5EF31B696E4D5 /* Assets.xcassets */; };
+		406F29BF8F7D2BF835BA921E /* MoleBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3FBB961DB0BBF4EAE0071C /* MoleBarApp.swift */; };
+		4A830CE317745EAC9218EFC6 /* MoleBarStores in Frameworks */ = {isa = PBXBuildFile; productRef = F6D9109339C6961C947C7825 /* MoleBarStores */; };
+		534B85B2B5FCF1B68093120E /* MoleBarCore in Frameworks */ = {isa = PBXBuildFile; productRef = 26D7502B4148D55D4F01736D /* MoleBarCore */; };
+		6DD9509F6D58C138D668A4E7 /* PopoverRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963B398FE618FB0F1B8A5139 /* PopoverRootView.swift */; };
+		9B220BE679CA80DFF985244D /* MoleBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D1DF3BD6AF0E7E0AD2642E /* MoleBarTests.swift */; };
+		ABE2A298A238316E9D470DAF /* CheckForUpdatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348416D083537300EF8BCFE6 /* CheckForUpdatesView.swift */; };
+		AC335B7EC72973FA68F3813D /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = D01F1FE6AA695F166CA94C1E /* Sparkle */; };
+		E49C08C3AAAB28B0849563E8 /* MoleBarUI in Frameworks */ = {isa = PBXBuildFile; productRef = 91E80FECB4FA7E16CA133874 /* MoleBarUI */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2DCF91B4909E64AE3D57A097 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15460460B5D41D03E58DA224 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0FC4596D6334CE772BBEADBB;
+			remoteInfo = MoleBar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0C3FBB961DB0BBF4EAE0071C /* MoleBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoleBarApp.swift; sourceTree = "<group>"; };
+		34250F7FEBB875E264A29DA0 /* MoleBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoleBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		348416D083537300EF8BCFE6 /* CheckForUpdatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckForUpdatesView.swift; sourceTree = "<group>"; };
+		40D1DF3BD6AF0E7E0AD2642E /* MoleBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoleBarTests.swift; sourceTree = "<group>"; };
+		42BE7D9F9AE2C78E6878FB5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6D828768BEF23D191A7FEF7E /* MoleBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MoleBar.entitlements; sourceTree = "<group>"; };
+		963B398FE618FB0F1B8A5139 /* PopoverRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverRootView.swift; sourceTree = "<group>"; };
+		B6FDD4941DD5EF31B696E4D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C26F4CB126AD36F0F09E31F1 /* MoleBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoleBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D97A8CAA0F80CF42CC05C4C3 /* MoleBarPackage */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MoleBarPackage; path = Packages/MoleBarPackage; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A27884365DD08B7C7C2452D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC335B7EC72973FA68F3813D /* Sparkle in Frameworks */,
+				534B85B2B5FCF1B68093120E /* MoleBarCore in Frameworks */,
+				4A830CE317745EAC9218EFC6 /* MoleBarStores in Frameworks */,
+				E49C08C3AAAB28B0849563E8 /* MoleBarUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6AD8898295EA2E71C602488C /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				D97A8CAA0F80CF42CC05C4C3 /* MoleBarPackage */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		C454CD20762CAF9D75D7EF08 /* MoleBarTests */ = {
+			isa = PBXGroup;
+			children = (
+				40D1DF3BD6AF0E7E0AD2642E /* MoleBarTests.swift */,
+			);
+			path = MoleBarTests;
+			sourceTree = "<group>";
+		};
+		C9AFE14B4EE49C40246FD689 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				34250F7FEBB875E264A29DA0 /* MoleBar.app */,
+				C26F4CB126AD36F0F09E31F1 /* MoleBarTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CF988A769F543C24FBF4D5ED /* MoleBar */ = {
+			isa = PBXGroup;
+			children = (
+				B6FDD4941DD5EF31B696E4D5 /* Assets.xcassets */,
+				348416D083537300EF8BCFE6 /* CheckForUpdatesView.swift */,
+				42BE7D9F9AE2C78E6878FB5B /* Info.plist */,
+				6D828768BEF23D191A7FEF7E /* MoleBar.entitlements */,
+				0C3FBB961DB0BBF4EAE0071C /* MoleBarApp.swift */,
+				963B398FE618FB0F1B8A5139 /* PopoverRootView.swift */,
+			);
+			path = MoleBar;
+			sourceTree = "<group>";
+		};
+		DAB840F6CE67A4175D9AE75F = {
+			isa = PBXGroup;
+			children = (
+				CF988A769F543C24FBF4D5ED /* MoleBar */,
+				C454CD20762CAF9D75D7EF08 /* MoleBarTests */,
+				6AD8898295EA2E71C602488C /* Packages */,
+				C9AFE14B4EE49C40246FD689 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0FC4596D6334CE772BBEADBB /* MoleBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 90563352FBA1D4C4B01F877E /* Build configuration list for PBXNativeTarget "MoleBar" */;
+			buildPhases = (
+				CAEEEAEA36390C269472EB49 /* Sources */,
+				41ADAC21C758D406B065195B /* Resources */,
+				A27884365DD08B7C7C2452D4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MoleBar;
+			packageProductDependencies = (
+				D01F1FE6AA695F166CA94C1E /* Sparkle */,
+				26D7502B4148D55D4F01736D /* MoleBarCore */,
+				F6D9109339C6961C947C7825 /* MoleBarStores */,
+				91E80FECB4FA7E16CA133874 /* MoleBarUI */,
+			);
+			productName = MoleBar;
+			productReference = 34250F7FEBB875E264A29DA0 /* MoleBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C3F31333324A72AAF4B0ED3A /* MoleBarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DE157D8A578D4D217BC22A5 /* Build configuration list for PBXNativeTarget "MoleBarTests" */;
+			buildPhases = (
+				48E0DE82E821659F3D6EDDD4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D6B1B1BF8265A34526EE5CB7 /* PBXTargetDependency */,
+			);
+			name = MoleBarTests;
+			packageProductDependencies = (
+			);
+			productName = MoleBarTests;
+			productReference = C26F4CB126AD36F0F09E31F1 /* MoleBarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		15460460B5D41D03E58DA224 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0FC4596D6334CE772BBEADBB = {
+						ProvisioningStyle = Manual;
+					};
+					C3F31333324A72AAF4B0ED3A = {
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = A8B6510A5BC899165A842E05 /* Build configuration list for PBXProject "MoleBar" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = DAB840F6CE67A4175D9AE75F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D1AC40E8255278E05F436C3C /* XCRemoteSwiftPackageReference "Sparkle" */,
+				38D5072C237A0484A4251DE4 /* XCLocalSwiftPackageReference "Packages/MoleBarPackage" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C9AFE14B4EE49C40246FD689 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0FC4596D6334CE772BBEADBB /* MoleBar */,
+				C3F31333324A72AAF4B0ED3A /* MoleBarTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		41ADAC21C758D406B065195B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E5CD18A07FAC1EF00C053E2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48E0DE82E821659F3D6EDDD4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B220BE679CA80DFF985244D /* MoleBarTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CAEEEAEA36390C269472EB49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABE2A298A238316E9D470DAF /* CheckForUpdatesView.swift in Sources */,
+				406F29BF8F7D2BF835BA921E /* MoleBarApp.swift in Sources */,
+				6DD9509F6D58C138D668A4E7 /* PopoverRootView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D6B1B1BF8265A34526EE5CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0FC4596D6334CE772BBEADBB /* MoleBar */;
+			targetProxy = 2DCF91B4909E64AE3D57A097 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A0756E9C4A07A7556BDFE592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.molebar.MoleBar.Tests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoleBar.app/Contents/MacOS/MoleBar";
+			};
+			name = Debug;
+		};
+		AC3D9C1B7469CC2B4DF96F2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MoleBar/MoleBar.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = MoleBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.molebar.MoleBar;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		B025A8EF572F7589A97F0B11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.0.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		BFED805434F1D442C02DB927 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MoleBar/MoleBar.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = MoleBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.molebar.MoleBar;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		F28DCDA912CF8B968AA3B114 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.0.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		FC71A14726EDE1B7D2D2B292 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.molebar.MoleBar.Tests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoleBar.app/Contents/MacOS/MoleBar";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7DE157D8A578D4D217BC22A5 /* Build configuration list for PBXNativeTarget "MoleBarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0756E9C4A07A7556BDFE592 /* Debug */,
+				FC71A14726EDE1B7D2D2B292 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		90563352FBA1D4C4B01F877E /* Build configuration list for PBXNativeTarget "MoleBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC3D9C1B7469CC2B4DF96F2D /* Debug */,
+				BFED805434F1D442C02DB927 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A8B6510A5BC899165A842E05 /* Build configuration list for PBXProject "MoleBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F28DCDA912CF8B968AA3B114 /* Debug */,
+				B025A8EF572F7589A97F0B11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		38D5072C237A0484A4251DE4 /* XCLocalSwiftPackageReference "Packages/MoleBarPackage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/MoleBarPackage;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1AC40E8255278E05F436C3C /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		26D7502B4148D55D4F01736D /* MoleBarCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoleBarCore;
+		};
+		91E80FECB4FA7E16CA133874 /* MoleBarUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoleBarUI;
+		};
+		D01F1FE6AA695F166CA94C1E /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1AC40E8255278E05F436C3C /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+		F6D9109339C6961C947C7825 /* MoleBarStores */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoleBarStores;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 15460460B5D41D03E58DA224 /* Project object */;
+}
