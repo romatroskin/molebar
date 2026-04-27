@@ -1,0 +1,47 @@
+# macOS
+.DS_Store
+
+# Xcode build outputs
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+.build/
+
+# Carthage / CocoaPods (not used here, listed for hygiene)
+Carthage/Build/
+Pods/
+
+# Sparkle EdDSA private keys — NEVER commit (D-05, OSS-04, Pitfall A2 unrotatable)
+*.key
+*.p8
+*.p12
+*.pem
+private/
+sparkle*.key
+
+# Apple notarization credentials
+AuthKey_*.p8
+notarytool*.json
+
+# Local environment scratch
+.env
+.env.local
+*.log
+.vscode/
+.idea/
+
+# Phase 1 build artifacts (created by scripts/bundle-mole.sh and scripts/package-dmg.sh)
+mole-bundle/
+build/dmg/
+
+# macOS finder / spotlight metadata
+.Spotlight-V100
+.Trashes
