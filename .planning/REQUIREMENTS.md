@@ -180,31 +180,110 @@ Explicitly excluded. Documented to prevent scope creep.
 
 ## Traceability
 
-Populated during roadmap creation by `gsd-roadmapper`. Each v1 requirement maps to exactly one phase.
+Populated 2026-04-27 by `gsd-roadmapper`. Each v1 requirement maps to exactly one phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DIST-01 — DIST-08 | TBD | Pending |
-| CORE-01 — CORE-08 | TBD | Pending |
-| PERM-01 — PERM-05 | TBD | Pending |
-| MON-01 — MON-06 | TBD | Pending |
-| CLEAN-01 — CLEAN-08 | TBD | Pending |
-| OPT-01 — OPT-04 | TBD | Pending |
-| PURGE-01 — PURGE-04 | TBD | Pending |
-| INST-01 — INST-03 | TBD | Pending |
-| ANALYZE-01 — ANALYZE-06 | TBD | Pending |
-| SCHED-01 — SCHED-06 | TBD | Pending |
-| LOG-01 — LOG-03 | TBD | Pending |
-| SET-01 — SET-07 | TBD | Pending |
-| NOTIF-01 — NOTIF-03 | TBD | Pending |
-| UPD-01 — UPD-05 | TBD | Pending |
-| OSS-01 — OSS-04 | TBD | Pending |
+| DIST-01 | Phase 1 — Distribution Foundations | Pending |
+| DIST-02 | Phase 1 — Distribution Foundations | Pending |
+| DIST-03 | Phase 1 — Distribution Foundations | Pending |
+| DIST-04 | Phase 1 — Distribution Foundations | Pending |
+| DIST-05 | Phase 1 — Distribution Foundations | Pending |
+| DIST-06 | Phase 1 — Distribution Foundations | Pending |
+| DIST-07 | Phase 1 — Distribution Foundations | Pending |
+| DIST-08 | Phase 1 — Distribution Foundations | Pending |
+| CORE-01 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-02 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-03 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-04 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-05 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-06 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-07 | Phase 2 — CLI Orchestration Core | Pending |
+| CORE-08 | Phase 2 — CLI Orchestration Core | Pending |
+| MON-01 | Phase 3 — UI Foundations & Live System Monitoring | Pending |
+| MON-02 | Phase 3 — UI Foundations & Live System Monitoring | Pending |
+| MON-03 | Phase 3 — UI Foundations & Live System Monitoring | Pending |
+| MON-04 | Phase 3 — UI Foundations & Live System Monitoring | Pending |
+| MON-05 | Phase 3 — UI Foundations & Live System Monitoring | Pending |
+| MON-06 | Phase 3 — UI Foundations & Live System Monitoring | Pending |
+| PERM-01 | Phase 4 — Permissions Onboarding | Pending |
+| PERM-02 | Phase 4 — Permissions Onboarding | Pending |
+| PERM-03 | Phase 4 — Permissions Onboarding | Pending |
+| PERM-04 | Phase 4 — Permissions Onboarding | Pending |
+| PERM-05 | Phase 4 — Permissions Onboarding | Pending |
+| CLEAN-01 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-02 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-03 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-04 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-05 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-06 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-07 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| CLEAN-08 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| OPT-01 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| OPT-02 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| OPT-03 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| OPT-04 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| PURGE-01 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| PURGE-02 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| PURGE-03 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| PURGE-04 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| INST-01 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| INST-02 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| INST-03 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| NOTIF-01 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| NOTIF-02 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| NOTIF-03 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| LOG-01 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| LOG-02 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| LOG-03 | Phase 5 — Cleaning Pipeline & Destructive Features | Pending |
+| ANALYZE-01 | Phase 6 — Disk Analyzer Window | Pending |
+| ANALYZE-02 | Phase 6 — Disk Analyzer Window | Pending |
+| ANALYZE-03 | Phase 6 — Disk Analyzer Window | Pending |
+| ANALYZE-04 | Phase 6 — Disk Analyzer Window | Pending |
+| ANALYZE-05 | Phase 6 — Disk Analyzer Window | Pending |
+| ANALYZE-06 | Phase 6 — Disk Analyzer Window | Pending |
+| SET-01 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SET-02 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SET-03 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SET-04 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SET-05 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SET-06 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SET-07 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SCHED-01 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SCHED-02 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SCHED-03 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SCHED-04 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SCHED-05 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| SCHED-06 | Phase 7 — Settings, Login Item & Scheduling | Pending |
+| UPD-01 | Phase 8 — CLI Updater, Cask & v1.0 Launch | Pending |
+| UPD-02 | Phase 8 — CLI Updater, Cask & v1.0 Launch | Pending |
+| UPD-03 | Phase 8 — CLI Updater, Cask & v1.0 Launch | Pending |
+| UPD-04 | Phase 8 — CLI Updater, Cask & v1.0 Launch | Pending |
+| UPD-05 | Phase 8 — CLI Updater, Cask & v1.0 Launch | Pending |
+| OSS-01 | Phase 1 — Distribution Foundations | Pending |
+| OSS-02 | Phase 2 — CLI Orchestration Core | Pending |
+| OSS-03 | Phase 8 — CLI Updater, Cask & v1.0 Launch | Pending |
+| OSS-04 | Phase 1 — Distribution Foundations | Pending |
 
 **Coverage:**
-- v1 requirements: 70 total across 15 categories
-- Mapped to phases: 0 (will be populated by roadmapper)
-- Unmapped: 70 ⚠️ (expected pre-roadmap)
+- v1 requirements: 80 total across 15 categories
+- Mapped to phases: 80 (100%)
+- Unmapped: 0
+
+**Per-phase distribution:**
+
+| Phase | REQ count | Categories |
+|-------|-----------|------------|
+| Phase 1 — Distribution Foundations | 10 | DIST (8), OSS (2: 01, 04) |
+| Phase 2 — CLI Orchestration Core | 9 | CORE (8), OSS (1: 02) |
+| Phase 3 — UI Foundations & Live System Monitoring | 6 | MON (6) |
+| Phase 4 — Permissions Onboarding | 5 | PERM (5) |
+| Phase 5 — Cleaning Pipeline & Destructive Features | 25 | CLEAN (8), OPT (4), PURGE (4), INST (3), NOTIF (3), LOG (3) |
+| Phase 6 — Disk Analyzer Window | 6 | ANALYZE (6) |
+| Phase 7 — Settings, Login Item & Scheduling | 13 | SET (7), SCHED (6) |
+| Phase 8 — CLI Updater, Cask & v1.0 Launch | 6 | UPD (5), OSS (1: 03) |
+| **Total** | **80** | **15 categories** |
 
 ---
 *Requirements defined: 2026-04-27*
-*Last updated: 2026-04-27 after initial definition*
+*Last updated: 2026-04-27 — traceability populated by `gsd-roadmapper` (8 phases, 80/80 requirements mapped)*
