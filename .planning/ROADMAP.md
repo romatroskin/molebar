@@ -36,7 +36,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Success Criteria** (what must be TRUE):
   1. Pushing a `vX.Y.Z` tag triggers the GitHub Actions release workflow on `macos-15`, which produces an unsigned `.dmg` artifact via `create-dmg` (standard drag-to-Applications layout) and uploads it to a GitHub Release.
   2. A 0.0.1 → 0.0.2 Sparkle update completes end-to-end with EdDSA verification (with `SURequireSignedFeed` enabled): user manually triggers "Check for Updates…" from the MenuBarExtra stub, sees the update prompt, and the new version installs and launches with the correct `CFBundleShortVersionString` from the git tag.
-  3. The Sparkle appcast is published at `https://romatroskin.github.io/molebar/appcast.xml` via the `gh-pages` branch; CI commits the EdDSA-signed appcast on every release.
+  3. The Sparkle appcast is published at `https://puffpuff.dev/molebar/appcast.xml` via the `gh-pages` branch; CI commits the EdDSA-signed appcast on every release.
   4. The bundled real `mole` binary (Universal2 lipo of a pinned upstream `tw93/mole` release) is present at `Contents/Helpers/mole` and is launchable from the dummy app's process — validating the bundle path resolution that Phase 2's `MoleClient` depends on.
   5. The repository at `github.com/romatroskin/molebar` is public, MIT-licensed, has a contributor-friendly README, and CI logs across the most recent 5 runs contain zero raw secrets (Sparkle EdDSA private key, ASC API key) — verified by `git log --all -p` grep + secret-scanning push protection.
 **Plans**: TBD

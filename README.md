@@ -54,7 +54,7 @@ MoleBar is a thin SwiftUI app target over a local SwiftPM package (`Packages/Mol
 - `MoleBarStores` — `@Observable @MainActor` view-models. Filled in Phase 3+.
 - `MoleBarUI` — SwiftUI views. Filled in Phase 3+.
 
-The bundled Mole tree (Shell wrappers + per-arch Go helpers, lipo'd Universal2) lives at `MoleBar.app/Contents/Helpers/`. The runtime resolver prefers a user copy at `~/Library/Application Support/MoleBar/bin/mole` if present (Phase 8 ships the user-copy auto-updater). The bundle ID is `app.molebar.MoleBar` (FROZEN — see `Info.plist`). The Sparkle appcast feed is `https://romatroskin.github.io/molebar/appcast.xml` (FROZEN — see `Info.plist`'s `SUFeedURL`).
+The bundled Mole tree (Shell wrappers + per-arch Go helpers, lipo'd Universal2) lives at `MoleBar.app/Contents/Helpers/`. The runtime resolver prefers a user copy at `~/Library/Application Support/MoleBar/bin/mole` if present (Phase 8 ships the user-copy auto-updater). The bundle ID is `app.molebar.MoleBar` (FROZEN — see `Info.plist`). The Sparkle appcast feed is `https://puffpuff.dev/molebar/appcast.xml` (FROZEN — see `Info.plist`'s `SUFeedURL`).
 
 ## Contributing
 

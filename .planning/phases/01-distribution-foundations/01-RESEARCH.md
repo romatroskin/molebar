@@ -22,7 +22,7 @@
 - **D-09 (runner):** Release builds run on **GitHub-hosted `macos-15`**.
 - **D-10 (notarization auth):** App Store Connect API Key (Issuer ID + Key ID + `.p8`). Plumbing wired in Phase 1 with empty-secret stub-out. Secrets `ASC_API_KEY_ID`, `ASC_ISSUER_ID`, `ASC_API_KEY_P8` added in Phase 1.5.
 - **D-11 (CI trigger):** Tag push in `vX.Y.Z` semver format. `git tag v0.0.1 && git push --tags` triggers the release workflow.
-- **D-12 (appcast URL):** `https://romatroskin.github.io/molebar/appcast.xml` via `gh-pages` branch. URL locked into `Info.plist`'s `SUFeedURL`.
+- **D-12 (appcast URL):** `https://puffpuff.dev/molebar/appcast.xml` via `gh-pages` branch. URL locked into `Info.plist`'s `SUFeedURL`.
 - **D-13 (0.0.1 dummy scope):** `MenuBarExtra(style: .window)` stub with: tiny popover showing "MoleBar 0.0.1 — nothing here yet"; "Check for Updates…" menu item wired to `SPUUpdater.checkForUpdates()`; Quit item.
 - **D-14 (mole binary bundling):** Real `mole` bundled at `Contents/Helpers/mole`, **Universal2** (lipo of arm64+x86_64). Pinned upstream version recorded in `mole-version.txt`. Smoke test invokes once with `--version`. **⚠ Critical caveat:** as written, this decision is technically infeasible — `mole` is a Shell script, not a Mach-O. See Pitfall A1 below for the corrected recipe (lipo applies only to the two Go helpers `analyze-go` and `status-go`; the Shell wrapper + lib/ tree must be copied as-is).
 - **D-15 (versioning):** `CFBundleShortVersionString` = git tag's semver (`v0.0.1` → `0.0.1`); `CFBundleVersion` = GitHub Actions run number. Injected via `xcodebuild` build settings; `Info.plist` uses `$(MARKETING_VERSION)` and `$(CURRENT_PROJECT_VERSION)` placeholders.
@@ -205,7 +205,7 @@ brew install create-dmg
             │
             ▼
    ┌──────────────────────────────────────────────────────┐
-   │ romatroskin.github.io/molebar/appcast.xml (HTTPS)    │
+   │ puffpuff.dev/molebar/appcast.xml (HTTPS)    │
    │ + github.com/romatroskin/molebar/releases/v0.0.1     │
    │   - MoleBar-0.0.1.dmg                                │
    └────────┬─────────────────────────────────────────────┘
@@ -364,7 +364,7 @@ Sources:
 | `CFBundleShortVersionString` | `$(MARKETING_VERSION)` | Injected by xcodebuild (D-15). |
 | `LSUIElement` | `YES` (Boolean) | Menu-bar app, no Dock icon. |
 | `LSMinimumSystemVersion` | `14.0` | macOS 14+ floor. |
-| `SUFeedURL` | `https://romatroskin.github.io/molebar/appcast.xml` | Per D-12. |
+| `SUFeedURL` | `https://puffpuff.dev/molebar/appcast.xml` | Per D-12. |
 | `SUPublicEDKey` | `<base64 EdDSA pubkey>` | Per D-08; FROZEN after first release. |
 | `SUEnableAutomaticChecks` | `YES` (Boolean) | Optional; controls scheduled background checks. |
 
@@ -599,7 +599,7 @@ This is a single-shot launch-and-version probe per CONTEXT.md's smoke test scope
 
 ### Pitfall A5: GitHub Pages first-time setup is manual + must be done in repo settings UI (P1)
 
-**What goes wrong:** CI workflow tries to push to `gh-pages` branch via peaceiris-action. The branch is created, but `https://romatroskin.github.io/molebar/appcast.xml` returns 404 because GitHub Pages was never enabled in the repo settings. SUFeedURL fetches fail. Sparkle update prompt never appears.
+**What goes wrong:** CI workflow tries to push to `gh-pages` branch via peaceiris-action. The branch is created, but `https://puffpuff.dev/molebar/appcast.xml` returns 404 because GitHub Pages was never enabled in the repo settings. SUFeedURL fetches fail. Sparkle update prompt never appears.
 
 **How to avoid:**
 - Manual one-time setup BEFORE the first tag push:
@@ -609,7 +609,7 @@ This is a single-shot launch-and-version probe per CONTEXT.md's smoke test scope
   4. Folder: `/ (root)`
   5. Save
 - Document this in the README's "Setup checklist for new maintainers" section and in a `.planning/phases/01-distribution-foundations/CHECKLIST.md` if the planner emits one.
-- Verify after first deploy: `curl -fsSL https://romatroskin.github.io/molebar/appcast.xml` should return the XML; HTTP 404 means Pages is not enabled.
+- Verify after first deploy: `curl -fsSL https://puffpuff.dev/molebar/appcast.xml` should return the XML; HTTP 404 means Pages is not enabled.
 
 **Source:** [peaceiris/actions-gh-pages docs](https://github.com/peaceiris/actions-gh-pages) — confirms manual repo-setting requirement. **[VERIFIED]**
 
@@ -775,7 +775,7 @@ Verified shape per Sparkle 2.x docs **[CITED]**:
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
     <title>MoleBar</title>
-    <link>https://romatroskin.github.io/molebar/appcast.xml</link>
+    <link>https://puffpuff.dev/molebar/appcast.xml</link>
     <description>MoleBar update feed</description>
     <language>en</language>
     <item>
@@ -1064,7 +1064,7 @@ jobs:
           <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
             <channel>
               <title>MoleBar</title>
-              <link>https://romatroskin.github.io/molebar/appcast.xml</link>
+              <link>https://puffpuff.dev/molebar/appcast.xml</link>
               <description>MoleBar update feed</description>
               <language>en</language>
               <item>
@@ -1235,7 +1235,7 @@ See Pitfall A1 above for the corrected recipe and full bash sequence. Summary:
 - **Phase gate:** Tag-push `v0.0.1` to a test branch repo first if possible, OR push to main repo with a pre-baked decision to delete the release if anything fails. Confirm:
   1. CI run is green.
   2. `MoleBar-0.0.1.dmg` is on the GitHub Release.
-  3. `https://romatroskin.github.io/molebar/appcast.xml` returns 200 with the expected XML.
+  3. `https://puffpuff.dev/molebar/appcast.xml` returns 200 with the expected XML.
   4. After tag-push `v0.0.2` (with a tiny version-string change in the popover), the smoke test in §Smoke Test Plan passes.
   5. `git log --all -p` post-release shows no key material; CI logs are clean.
 
@@ -1286,7 +1286,7 @@ The plan name is "round-trip 0.0.1 → 0.0.2 update succeeds end-to-end." The ex
 
 **Failure modes to watch for:**
 - Sparkle says "improperly signed update" → check the `SUPublicEDKey` in the 0.0.1 Info.plist matches the public key derived from `SPARKLE_EDDSA_PRIVATE_KEY` (run `generate_keys -p` against the dev Keychain entry).
-- Sparkle says "could not load feed" → check `https://romatroskin.github.io/molebar/appcast.xml` is publicly reachable (incognito browser); GitHub Pages first-time setup wasn't done.
+- Sparkle says "could not load feed" → check `https://puffpuff.dev/molebar/appcast.xml` is publicly reachable (incognito browser); GitHub Pages first-time setup wasn't done.
 - The "Check for Updates…" button is permanently disabled → check `CheckForUpdatesViewModel.canCheckForUpdates` is being set; `startingUpdater: true` was passed to `SPUStandardUpdaterController.init`.
 - The 0.0.2 install replaces 0.0.1 but launches showing 0.0.1's text → caching / wrong DMG was uploaded; verify `xcodebuild` injection of `MARKETING_VERSION` worked (`defaults read /Applications/MoleBar.app/Contents/Info CFBundleShortVersionString`).
 
