@@ -1,0 +1,9 @@
+# dmg-assets/
+
+This directory holds DMG layout assets — primarily `background.png` (660x400)
+used by `scripts/package-dmg.sh` and the CI release workflow.
+
+v0.0.1 ships with a placeholder dark-grey PNG. v0.1+ replaces it with a designed
+background. Per CONTEXT.md D-16, when `background.png` is absent, the packaging
+script falls back to the no-background two-icon layout — that codepath is verified
+by removing this file locally and re-running `scripts/package-dmg.sh`.
