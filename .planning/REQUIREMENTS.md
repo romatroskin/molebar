@@ -184,13 +184,13 @@ Populated 2026-04-27 by `gsd-roadmapper`. Each v1 requirement maps to exactly on
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DIST-01 | Phase 1 — Distribution Foundations | Pending |
-| DIST-02 | Phase 1 — Distribution Foundations | Pending |
-| DIST-03 | Phase 1 — Distribution Foundations | Pending |
+| DIST-01 | Phase 1.5 — Sign & Ship for Real | Pending |
+| DIST-02 | Phase 1.5 — Sign & Ship for Real | Pending |
+| DIST-03 | Phase 1.5 — Sign & Ship for Real | Pending |
 | DIST-04 | Phase 1 — Distribution Foundations | Pending |
 | DIST-05 | Phase 1 — Distribution Foundations | Pending |
 | DIST-06 | Phase 1 — Distribution Foundations | Pending |
-| DIST-07 | Phase 1 — Distribution Foundations | Pending |
+| DIST-07 | Phase 1.5 — Sign & Ship for Real | Pending |
 | DIST-08 | Phase 1 — Distribution Foundations | Pending |
 | CORE-01 | Phase 2 — CLI Orchestration Core | Pending |
 | CORE-02 | Phase 2 — CLI Orchestration Core | Pending |

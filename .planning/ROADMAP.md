@@ -1,8 +1,9 @@
 # Roadmap: MoleBar
 
 **Created:** 2026-04-27
-**Granularity:** standard (8 phases)
+**Granularity:** standard (8 phases + 1 inserted = 9 total)
 **Coverage:** 80/80 v1 requirements mapped (100%)
+**Last revised:** 2026-04-27 — Phase 1.5 inserted via `/gsd-discuss-phase 1` to honor "defer signing setup" decision (DIST-01, DIST-02, DIST-03, DIST-07 moved from Phase 1 → Phase 1.5)
 
 ## Overview
 
@@ -16,7 +17,8 @@ MoleBar ships in eight phases that follow the dependency gravity of the project 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Distribution Foundations** - Sign/notarize/Sparkle/CI pipeline shipping a 0.0.1 dummy release end-to-end before any feature
+- [ ] **Phase 1: Distribution Foundations** - Unsigned 0.0.1 dummy round-trip through CI pipeline (DMG + Sparkle appcast + 0.0.1 → 0.0.2 update); locks the unrotatable decisions (Sparkle EdDSA key, repo/tap topology, CI secret hygiene) without requiring an Apple Developer ID
+- [ ] **Phase 1.5: Sign & Ship for Real** *(INSERTED — depends on Apple Developer Program enrollment)* - Retrofit Phase 1's pipeline with real code signing, notarization (notarytool + stapler), bundled-binary re-signing, and Homebrew Cask publication; cut a signed/notarized release that passes Gatekeeper
 - [ ] **Phase 2: CLI Orchestration Core** - `MoleClient` actor with non-deadlocking subprocess streaming, versioned Codable models, and the no-outbound-traffic invariant
 - [ ] **Phase 3: UI Foundations & Live System Monitoring** - First end-to-end vertical slice: MenuBarExtra `.window` popover with live CPU/GPU/memory/disk/network from `mo status --json`
 - [ ] **Phase 4: Permissions Onboarding** - First-run Full Disk Access flow that gracefully degrades destructive features when denied and re-probes on every activation
@@ -28,15 +30,27 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Distribution Foundations
-**Goal**: Ship a signed, notarized, stapled, Sparkle-updateable 0.0.1 dummy release end-to-end so the unrotatable distribution-layer decisions (EdDSA key, code-signing identity, CI secret hygiene) are locked in before any feature ships.
+**Goal**: Ship an UNSIGNED 0.0.1 dummy release end-to-end through the entire CI pipeline (build → DMG → Sparkle appcast → 0.0.1 → 0.0.2 round-trip) so the unrotatable decisions (Sparkle EdDSA key, repo/tap topology, CI secret hygiene, bundle ID, appcast URL) are locked before any feature ships. Code signing and notarization steps are scaffolded into the pipeline as stubbed/skipped jobs — they activate in Phase 1.5 once an Apple Developer ID is available.
 **Depends on**: Nothing (first phase)
-**Requirements**: DIST-01, DIST-02, DIST-03, DIST-04, DIST-05, DIST-06, DIST-07, DIST-08, OSS-01, OSS-04
+**Requirements**: DIST-04, DIST-05, DIST-06, DIST-08, OSS-01, OSS-04
 **Success Criteria** (what must be TRUE):
-  1. A clean Mac (no prior dev build) can install the `.dmg` from a GitHub Release, see Gatekeeper accept it, and launch MoleBar without warnings.
-  2. The bundled `mole` binary at `Contents/Helpers/mole` passes `spctl --assess --type execute -vvv` and `codesign --verify --deep --strict --verbose=2`.
-  3. A 0.0.1 → 0.0.2 Sparkle update completes end-to-end: user sees the update prompt, EdDSA verification passes (with `SURequireSignedFeed` enabled), the new version installs and launches with the correct `CFBundleShortVersionString`.
-  4. `brew install --cask molebar` from the project tap installs the same artifact, and the published Cask formula is auto-bumped on tag push with `auto_updates true`.
-  5. The repository is public, MIT-licensed, has a contributor-friendly README, and CI logs across the most recent 5 runs contain zero raw secrets (Apple Developer ID, EdDSA private key, App Store Connect API key) — verified by `git log --all -p` grep + secret-scanning push protection.
+  1. Pushing a `vX.Y.Z` tag triggers the GitHub Actions release workflow on `macos-15`, which produces an unsigned `.dmg` artifact via `create-dmg` (standard drag-to-Applications layout) and uploads it to a GitHub Release.
+  2. A 0.0.1 → 0.0.2 Sparkle update completes end-to-end with EdDSA verification (with `SURequireSignedFeed` enabled): user manually triggers "Check for Updates…" from the MenuBarExtra stub, sees the update prompt, and the new version installs and launches with the correct `CFBundleShortVersionString` from the git tag.
+  3. The Sparkle appcast is published at `https://romatroskin.github.io/molebar/appcast.xml` via the `gh-pages` branch; CI commits the EdDSA-signed appcast on every release.
+  4. The bundled real `mole` binary (Universal2 lipo of a pinned upstream `tw93/mole` release) is present at `Contents/Helpers/mole` and is launchable from the dummy app's process — validating the bundle path resolution that Phase 2's `MoleClient` depends on.
+  5. The repository at `github.com/romatroskin/molebar` is public, MIT-licensed, has a contributor-friendly README, and CI logs across the most recent 5 runs contain zero raw secrets (Sparkle EdDSA private key, ASC API key) — verified by `git log --all -p` grep + secret-scanning push protection.
+**Plans**: TBD
+
+### Phase 1.5: Sign & Ship for Real *(INSERTED)*
+**Goal**: Retrofit Phase 1's CI pipeline with real Apple Developer ID signing (`--options runtime --timestamp`), notarization (`xcrun notarytool` + `xcrun stapler`), bundled-binary re-signing (inside-out, no `--deep`), and Homebrew Cask publication via a personal tap. Cut the first signed/notarized release that passes Gatekeeper on a clean Mac and is installable via `brew install --cask`.
+**Depends on**: Phase 1 (and externally: Apple Developer Program enrollment is complete with a Developer ID Application certificate available)
+**Requirements**: DIST-01, DIST-02, DIST-03, DIST-07
+**Success Criteria** (what must be TRUE):
+  1. A clean Mac (no prior dev build) can install the signed `.dmg` from a GitHub Release, see Gatekeeper accept it, and launch MoleBar without security warnings.
+  2. The bundled `mole` binary at `Contents/Helpers/mole` is re-signed with hardened runtime + timestamp (independently of the .app, never via `--deep`) and passes `spctl --assess --type execute -vvv` plus `codesign --verify --deep --strict --verbose=2`.
+  3. CI authenticates to Apple's notarization service via App Store Connect API Key (Issuer ID + Key ID + .p8 stored in GitHub Actions secrets) and signs + notarizes + staples on tag push without manual intervention.
+  4. `brew tap romatroskin/tap && brew install --cask molebar` installs the same notarized artifact end-to-end on a fresh Mac; the Cask formula is auto-bumped on each tag push (`auto_updates true`).
+  5. The first signed release ships with release notes linking to the GitHub Release page, and Sparkle still performs a successful update round-trip (signed → newer signed) with EdDSA verification continuing to pass — proving the signing retrofit didn't break Phase 1's update plumbing.
 **Plans**: TBD
 
 ### Phase 2: CLI Orchestration Core
@@ -131,11 +145,14 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 1.5 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+
+**Note:** Phase 1.5 is blocked on Apple Developer Program enrollment. Phases 2+ can begin in parallel with Phase 1.5 once Phase 1 is complete; Phase 1.5 retrofits signing into the existing pipeline rather than gating downstream feature work.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Distribution Foundations | 0/TBD | Not started | - |
+| 1.5. Sign & Ship for Real *(INSERTED)* | 0/TBD | Not started — blocked on Apple Developer Program enrollment | - |
 | 2. CLI Orchestration Core | 0/TBD | Not started | - |
 | 3. UI Foundations & Live System Monitoring | 0/TBD | Not started | - |
 | 4. Permissions Onboarding | 0/TBD | Not started | - |
