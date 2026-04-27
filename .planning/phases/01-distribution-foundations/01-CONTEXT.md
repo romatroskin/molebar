@@ -124,7 +124,16 @@ Phase 1 ships an **unsigned 0.0.1 dummy release** end-to-end through the entire 
 
 </deferred>
 
+## Research Updates (2026-04-27, after `01-RESEARCH.md`)
+
+The phase researcher verified two CONTEXT.md decisions against current upstream sources and found corrections that **supersede** the original wording:
+
+- **D-14 amendment — `mole` is NOT a single Mach-O.** Upstream `tw93/mole` ships a Shell wrapper (`mole`, `mo`, `lib/`, `cmd/`, `scripts/`) PLUS two per-arch Go helpers: `analyze-darwin-{arm64,amd64}` and `status-darwin-{arm64,amd64}`. A single Universal2 lipo of "the mole binary" is technically infeasible — there is no such file. **Corrected recipe (RESEARCH.md §Mole Bundling Recipe):** in CI, clone the pinned upstream tag, run `lipo -create -output ...` on each of the two Go helper pairs producing two Universal2 Mach-Os, and copy the entire Shell tree verbatim into `Contents/Helpers/mole/` (a directory, not a file). The Shell wrapper at `Contents/Helpers/mole/mole` is the entry point Phase 2's `MoleClient.resolveBinary()` invokes. Verify post-lipo with `file Contents/Helpers/mole/lib/analyze/analyze-darwin` (expect `Mach-O universal binary with 2 architectures`) and `lipo -archs` on each.
+- **A1 amendment — drop `SURequireSignedFeed` from Info.plist for Phase 1.** That key is for separate appcast-feed-level signing in older Sparkle paradigms; Sparkle 2.x EdDSA verification of release enclosures (the actual update-integrity guarantee we need) does NOT require it. Phase 1 Info.plist includes `SUFeedURL`, `SUPublicEDKey`, `SUEnableInstallerLauncherService`, `SUEnableDownloaderService`, `SUEnableAutomaticChecks` — and **omits** `SURequireSignedFeed`.
+
+Other Assumptions in RESEARCH.md §Assumptions Log (A2-A10) and §Open Questions (Q1-Q5) are non-blocking for planning; the planner is authorized to apply the researcher's recommended resolutions, recording any deviation in the plan's `truths` list.
+
 ---
 
 *Phase: 1-Distribution Foundations*
-*Context gathered: 2026-04-27*
+*Context gathered: 2026-04-27 — patched 2026-04-27 with research findings*
