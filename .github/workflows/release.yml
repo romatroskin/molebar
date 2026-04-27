@@ -1,0 +1,285 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write     # softprops/action-gh-release + peaceiris/actions-gh-pages need write
+  pages: write        # Pages publish via gh-pages branch
+  id-token: write     # Reserved for future OIDC trusted publishing
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false   # NEVER cancel a release mid-flight
+
+jobs:
+  release:
+    runs-on: macos-15
+    timeout-minutes: 30
+    # Job-level env hoists the `secrets`-context evaluations so per-step `if:`
+    # conditions can use the `env` context (which IS available in step `if`).
+    # Functional behavior is identical to `if: ${{ secrets.X != '' }}`, but
+    # passes actionlint cleanly. Phase 1.5 fills the underlying secrets; the
+    # `HAS_*` flags flip to 'true' automatically — no workflow edits needed.
+    env:
+      HAS_MACOS_CERT: ${{ secrets.MACOS_CERT != '' }}
+      HAS_MACOS_CERT_NAME: ${{ secrets.MACOS_CERT_NAME != '' }}
+      HAS_ASC_API_KEY_P8: ${{ secrets.ASC_API_KEY_P8 != '' }}
+      HAS_HOMEBREW_GITHUB_TOKEN: ${{ secrets.HOMEBREW_GITHUB_TOKEN != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute versions
+        id: versions
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF#refs/tags/}"
+          MARKETING_VERSION="${TAG#v}"
+          CURRENT_PROJECT_VERSION="${GITHUB_RUN_NUMBER}"
+          {
+            echo "marketing=$MARKETING_VERSION"
+            echo "build=$CURRENT_PROJECT_VERSION"
+            echo "tag=$TAG"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app
+
+      - name: Install create-dmg
+        run: brew install create-dmg
+
+      - name: Resolve Sparkle SPM artifacts
+        run: |
+          set -euo pipefail
+          xcodebuild -resolvePackageDependencies -project MoleBar.xcodeproj -scheme MoleBar
+
+      - name: Bundle tw93/mole at pinned version
+        run: |
+          set -euo pipefail
+          bash scripts/bundle-mole.sh
+
+      - name: Build & archive (unsigned in Phase 1; activates signing via env in Phase 1.5)
+        run: |
+          set -euo pipefail
+          xcodebuild archive \
+            -project MoleBar.xcodeproj \
+            -scheme MoleBar \
+            -configuration Release \
+            -archivePath build/MoleBar.xcarchive \
+            -destination "generic/platform=macOS" \
+            MARKETING_VERSION="${{ steps.versions.outputs.marketing }}" \
+            CURRENT_PROJECT_VERSION="${{ steps.versions.outputs.build }}" \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Stage .app + Mole bundle into build/staged/
+        run: |
+          set -euo pipefail
+          # Layout (per CONTEXT.md D-14 patch): Helpers/mole/ is a SUBDIRECTORY whose
+          # `mole` file is the Shell wrapper entry point.
+          # build/staged/ is OUTSIDE build/export/, so package-dmg.sh's `rm -rf build/export`
+          # is safe and our APP_PATH in build/staged/ remains intact.
+          mkdir -p build/staged
+          cp -R build/MoleBar.xcarchive/Products/Applications/MoleBar.app build/staged/MoleBar.app
+          APP="build/staged/MoleBar.app"
+          mkdir -p "$APP/Contents/Helpers"
+          rm -rf "$APP/Contents/Helpers/mole"
+          cp -R mole-bundle "$APP/Contents/Helpers/mole"
+          # Smoke-test the bundled mole wrapper at its new location.
+          "$APP/Contents/Helpers/mole/mole" --version
+
+
+      # ---------- STUBBED — activates in Phase 1.5 (D-18) ----------
+
+      - name: Import Developer ID certificate (STUB)
+        if: env.HAS_MACOS_CERT == 'true'
+        env:
+          MACOS_CERT: ${{ secrets.MACOS_CERT }}
+          MACOS_CERT_PWD: ${{ secrets.MACOS_CERT_PWD }}
+          MACOS_CI_KEYCHAIN_PWD: ${{ secrets.MACOS_CI_KEYCHAIN_PWD }}
+        run: |
+          set -euo pipefail
+          echo "::add-mask::$MACOS_CERT_PWD"
+          echo "::add-mask::$MACOS_CI_KEYCHAIN_PWD"
+          echo "$MACOS_CERT" | base64 --decode > certificate.p12
+          security create-keychain -p "$MACOS_CI_KEYCHAIN_PWD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$MACOS_CI_KEYCHAIN_PWD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$MACOS_CERT_PWD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$MACOS_CI_KEYCHAIN_PWD" build.keychain
+          rm -f certificate.p12
+
+      - name: Sign embedded mole helpers + .app inside-out (STUB; activates in Phase 1.5)
+        if: env.HAS_MACOS_CERT_NAME == 'true'
+        env:
+          MACOS_CERT_NAME: ${{ secrets.MACOS_CERT_NAME }}
+        run: |
+          set -euo pipefail
+          # Operates on the staged app at build/staged/MoleBar.app (mole-bundle already in Helpers/mole/).
+          APP="build/staged/MoleBar.app"
+
+          # Sign Go helpers first (innermost) — paths reflect the Helpers/mole/ subdirectory layout (CONTEXT.md D-14 patch)
+          for bin in "$APP/Contents/Helpers/mole/bin/analyze-go" "$APP/Contents/Helpers/mole/bin/status-go"; do
+            codesign --force --options runtime --timestamp --sign "$MACOS_CERT_NAME" "$bin"
+          done
+          # Note: Shell scripts (mole, mo, lib/*.sh, cmd/*, scripts/*) are NOT signable —
+          # they're text files. The .app's signature covers them via signed-resources rules.
+
+          # Then sign the .app outermost
+          codesign --force --options runtime --timestamp \
+            --entitlements MoleBar/MoleBar.entitlements \
+            --sign "$MACOS_CERT_NAME" "$APP"
+
+      - name: Build DMG via scripts/package-dmg.sh
+        run: |
+          set -euo pipefail
+          # package-dmg.sh: takes the (already-staged-and-maybe-signed) .app at APP_PATH,
+          # idempotently re-stages into a clean build/export/MoleBar.app (skips if Helpers/mole/
+          # is already populated, per the script's safety guard), runs create-dmg, and writes
+          # the .dmg to DMG_DIR. APP_PATH is in build/staged/ — OUTSIDE build/export/ — so
+          # the script's `rm -rf build/export` is safe.
+          MARKETING_VERSION="${{ steps.versions.outputs.marketing }}" \
+          APP_PATH="$(pwd)/build/staged/MoleBar.app" \
+          MOLE_BUNDLE_DIR="$(pwd)/mole-bundle" \
+          DMG_DIR="$(pwd)/build/dmg" \
+          bash scripts/package-dmg.sh
+
+      # ---------- STUBBED — activates in Phase 1.5 ----------
+
+      - name: Notarize DMG via notarytool (STUB)
+        if: env.HAS_ASC_API_KEY_P8 == 'true'
+        env:
+          ASC_API_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_API_KEY_P8: ${{ secrets.ASC_API_KEY_P8 }}
+        run: |
+          set -euo pipefail
+          echo "::add-mask::$ASC_API_KEY_P8"
+          KEY_FILE=$(mktemp)
+          ( umask 077 && printf '%s' "$ASC_API_KEY_P8" > "$KEY_FILE" )
+
+          xcrun notarytool submit \
+            "build/dmg/MoleBar-${{ steps.versions.outputs.marketing }}.dmg" \
+            --key "$KEY_FILE" \
+            --key-id "$ASC_API_KEY_ID" \
+            --issuer "$ASC_ISSUER_ID" \
+            --wait
+
+          xcrun stapler staple \
+            "build/dmg/MoleBar-${{ steps.versions.outputs.marketing }}.dmg"
+
+          shred -uvz "$KEY_FILE" 2>/dev/null || rm -P "$KEY_FILE"
+
+      # ---------- always runs (real Sparkle EdDSA signing — Pitfall A3 says LAST) ----------
+
+      - name: Sign DMG with Sparkle EdDSA (LAST mutation of the .dmg — never re-package after this)
+        env:
+          SPARKLE_EDDSA_PRIVATE_KEY: ${{ secrets.SPARKLE_EDDSA_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$SPARKLE_EDDSA_PRIVATE_KEY" ]; then
+            echo "ERROR: SPARKLE_EDDSA_PRIVATE_KEY repository secret is empty." >&2
+            echo "       Plan 04 is responsible for bootstrapping this secret BEFORE the first tag push." >&2
+            echo "       Recovery: add the secret via 'gh secret set SPARKLE_EDDSA_PRIVATE_KEY --repo ${{ github.repository }} < /tmp/sparkle.key'" >&2
+            exit 1
+          fi
+
+          echo "::add-mask::$SPARKLE_EDDSA_PRIVATE_KEY"
+
+          SPARKLE_BIN="$(find ~/Library/Developer/Xcode/DerivedData -path '*/sparkle/Sparkle/bin' -type d | head -n 1)"
+          if [ -z "$SPARKLE_BIN" ] || [ ! -x "$SPARKLE_BIN/sign_update" ]; then
+            echo "ERROR: Sparkle's sign_update not found in DerivedData (expected at \$DerivedData/.../sparkle/Sparkle/bin/sign_update)." >&2
+            exit 1
+          fi
+
+          KEY_FILE="$(mktemp)"
+          ( umask 077 && printf '%s' "$SPARKLE_EDDSA_PRIVATE_KEY" > "$KEY_FILE" )
+
+          DMG="build/dmg/MoleBar-${{ steps.versions.outputs.marketing }}.dmg"
+          # Whole-line capture (per Assumptions Log A2 — robust against sign_update format changes)
+          SIGN_FRAGMENT="$("$SPARKLE_BIN/sign_update" --ed-key-file "$KEY_FILE" "$DMG")"
+
+          shred -uvz "$KEY_FILE" 2>/dev/null || rm -P "$KEY_FILE"
+
+          if [ -z "$SIGN_FRAGMENT" ]; then
+            echo "ERROR: sign_update produced empty output." >&2
+            exit 1
+          fi
+
+          # Persist for the next step (Render appcast). Avoid echoing the fragment here
+          # — it includes the EdDSA signature; while not the private key, masking is cheap.
+          {
+            echo "SIGN_FRAGMENT<<EOF_SIGN"
+            echo "$SIGN_FRAGMENT"
+            echo "EOF_SIGN"
+          } >> "$GITHUB_ENV"
+          echo "DMG_LENGTH_BYTES=$(stat -f%z "$DMG")" >> "$GITHUB_ENV"
+
+      - name: Render appcast.xml (single-item appcast — overwrites previous on each release)
+        run: |
+          set -euo pipefail
+          mkdir -p _gh_pages_payload
+          cat > _gh_pages_payload/appcast.xml <<EOF_APPCAST
+          <?xml version="1.0" encoding="utf-8"?>
+          <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+            <channel>
+              <title>MoleBar</title>
+              <link>https://puffpuff.dev/molebar/appcast.xml</link>
+              <description>MoleBar update feed</description>
+              <language>en</language>
+              <item>
+                <title>Version ${{ steps.versions.outputs.marketing }}</title>
+                <pubDate>$(date -u +'%a, %d %b %Y %H:%M:%S +0000')</pubDate>
+                <sparkle:version>${{ steps.versions.outputs.build }}</sparkle:version>
+                <sparkle:shortVersionString>${{ steps.versions.outputs.marketing }}</sparkle:shortVersionString>
+                <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+                <description><![CDATA[
+                <p>See the <a href="https://github.com/romatroskin/molebar/releases/tag/${{ steps.versions.outputs.tag }}">GitHub release notes</a>.</p>
+                ]]></description>
+                <enclosure
+                  url="https://github.com/romatroskin/molebar/releases/download/${{ steps.versions.outputs.tag }}/MoleBar-${{ steps.versions.outputs.marketing }}.dmg"
+                  ${SIGN_FRAGMENT}
+                  type="application/x-apple-diskimage" />
+              </item>
+            </channel>
+          </rss>
+          EOF_APPCAST
+          echo "Rendered appcast:"
+          cat _gh_pages_payload/appcast.xml
+
+      - name: Create GitHub Release & upload DMG
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.versions.outputs.tag }}
+          name: "MoleBar ${{ steps.versions.outputs.marketing }}"
+          generate_release_notes: true
+          files: build/dmg/MoleBar-${{ steps.versions.outputs.marketing }}.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish appcast.xml to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _gh_pages_payload
+          publish_branch: gh-pages
+          keep_files: true
+          commit_message: "Publish appcast for ${{ steps.versions.outputs.tag }}"
+
+      # ---------- STUBBED — Phase 1.5 (Cask bump) ----------
+
+      - name: Bump Homebrew Cask (STUB)
+        if: env.HAS_HOMEBREW_GITHUB_TOKEN == 'true'
+        run: |
+          set -euo pipefail
+          echo "Phase 1.5: bump romatroskin/homebrew-tap cask formula via LanikSJ/homebrew-bump-cask or equivalent."
+          echo "Cask formula will live at: https://github.com/romatroskin/homebrew-tap/blob/main/Casks/molebar.rb"
+          # TODO Phase 1.5: replace this echo with the actual action invocation.

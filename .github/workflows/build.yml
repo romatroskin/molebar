@@ -1,0 +1,57 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true   # PR-time builds: cancel earlier in-flight on new push
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.4
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app
+
+      - name: Resolve SwiftPM dependencies
+        run: |
+          set -euo pipefail
+          xcodebuild -resolvePackageDependencies -project MoleBar.xcodeproj -scheme MoleBar
+
+      - name: Build (arm64, unsigned)
+        run: |
+          set -euo pipefail
+          xcodebuild build \
+            -project MoleBar.xcodeproj \
+            -scheme MoleBar \
+            -destination 'platform=macOS,arch=arm64' \
+            MARKETING_VERSION=0.0.0 \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            CODE_SIGN_IDENTITY='-' \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Test (vacuous in Phase 1, populated in Phase 2)
+        run: |
+          set -euo pipefail
+          xcodebuild test \
+            -project MoleBar.xcodeproj \
+            -scheme MoleBar \
+            -destination 'platform=macOS,arch=arm64' \
+            MARKETING_VERSION=0.0.0 \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            CODE_SIGN_IDENTITY='-' \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
